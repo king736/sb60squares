@@ -8,10 +8,22 @@ function SquaresContent() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
-  const [boards, setBoards] = useState(() => [...Array(7)].map((_, i) => ({
-    name: i === 0 ? "Alex & Ty Board" : `Board #${i + 1}`,
+  const [boards, setBoards] = useState(() => {
+  const customNames = [
+    "Alex & Tyler",       // Board 1
+    "Mom Dad Big Money",        // Board 2
+    "Mom Dad Twenty",        // Board 3
+    "Mom Dad Board 3",  // Board 4
+    "Board 5",        // Board 5
+    "Board 6",   // Board 6
+    "Board 7" // Board 7
+  ];
+  return customNames.map((name) => ({
+    name: name,
     squares: {} as Record<number, string>
-  })));
+  }));
+});
+
 
   useEffect(() => {
     // 1. Load from URL if present
