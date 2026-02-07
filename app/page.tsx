@@ -101,7 +101,7 @@ function SquaresContent() {
         </div>
         <div className="flex gap-2">
            <button onClick={generateShareLink} className="p-3 bg-slate-900 rounded-2xl text-blue-400 border border-white/5"><Share2 size={20}/></button>
-           <button onClick={() => {if(prompt("Password?")==='2026') setIsAdmin(!isAdmin)}} className="p-3 bg-slate-900 rounded-2xl border border-white/5">
+           <button onClick={() => {if(prompt("Password?")==='SBKing2026$') setIsAdmin(!isAdmin)}} className="p-3 bg-slate-900 rounded-2xl border border-white/5">
              {isAdmin ? <Unlock size={20} className="text-seahawks-green" /> : <Lock size={20} className="text-slate-700" />}
            </button>
         </div>
