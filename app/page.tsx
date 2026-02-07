@@ -9,7 +9,7 @@ function SquaresContent() {
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
   const [boards, setBoards] = useState(() => [...Array(7)].map((_, i) => ({
-    name: i === 0 ? "Main Family" : `Board #${i + 1}`,
+    name: i === 0 ? "Alex & Ty Board" : `Board #${i + 1}`,
     squares: {} as Record<number, string>
   })));
 
