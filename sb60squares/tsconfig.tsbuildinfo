@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/supabaseClient.ts","./src/components/HeatMap.tsx","./src/components/ImageUploadModal.tsx","./src/components/PageList.tsx","./src/components/Scoreboard.tsx","./src/components/SquareGrid.tsx"],"version":"5.9.3"}
