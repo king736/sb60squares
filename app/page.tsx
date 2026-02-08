@@ -82,6 +82,26 @@ function SquaresContent() {
     }
   };
 
+const editAxisNum = (type: 'row' | 'col', index: number) => {
+  if (!isAdmin) return;
+  const val = prompt(`Enter number for this ${type}:`);
+  if (val !== null && !isNaN(parseInt(val))) {
+    const nb = [...boards];
+    if (type === 'row') nb[activeBoard].rowNums[index] = parseInt(val);
+    else nb[activeBoard].colNums[index] = parseInt(val);
+    setBoards(nb); 
+    // If you have a save() function, call it here
+  }
+};
+
+const randomizeAllNums = () => {
+  if (!isAdmin || !confirm("Randomize numbers for this board?")) return;
+  const nb = [...boards];
+  nb[activeBoard].rowNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
+  nb[activeBoard].colNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
+  setBoards(nb);
+};
+
   const generateShareLink = () => {
     const data = btoa(JSON.stringify({ b: boards, h: history }));
     const url = `${window.location.origin}${window.location.pathname}?d=${data}`;
