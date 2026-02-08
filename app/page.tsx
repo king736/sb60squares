@@ -33,7 +33,7 @@ function SquaresContent() {
         setHistory(decoded.h || []);
       } catch (e) { console.error("Link error"); }
     } else {
-      const saved = localStorage.getItem('sb60-safe-v4');
+      const saved = localStorage.getItem('sb60-safe-v5');
       if (saved) {
         const p = JSON.parse(saved);
         setBoards(p.b);
