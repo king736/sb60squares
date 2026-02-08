@@ -24,9 +24,9 @@ function SquaresContent() {
 
   // Keep your custom names, but add these rowNums and colNums lines
 const [boards, setBoards] = useState([
-  { name: "Alex & Tyler", squares: {}, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4] },
-  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] }
+  { name: "Alex & Tyler", squares: {}, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4] },swapped: false,
+  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },swapped: false,
+  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },swapped: false
   // ... do this for all 7
 ]);
 
@@ -110,6 +110,13 @@ const [boards, setBoards] = useState([
     }
   };
 
+  const toggleTeamSwap = () => {
+  if (!isAdmin) return;
+  const nb = JSON.parse(JSON.stringify(boards));
+  nb[activeBoard].swapped = !nb[activeBoard].swapped;
+  save(nb);
+};
+
   // const winCoords = {
   //   r: boards[activeBoard].rowNums.indexOf(score.home % 10),
   //   c: boards[activeBoard].colNums.indexOf(score.away % 10)
@@ -121,10 +128,24 @@ const likelyHome = increments.map(inc => (score.home + inc) % 10);
 const likelyAway = increments.map(inc => (score.away + inc) % 10);
 
 // This should already be in your code:
+// 1. Determine who is on which axis
+const isSwapped = boards[activeBoard].swapped;
+const sideColor = isSwapped ? '#C60C30' : '#69BE28'; // Side is Red (PAT) if swapped
+const topColor = isSwapped ? '#69BE28' : '#C60C30';  // Top is Green (SEA) if swapped
+
+// 2. Adjust Winning Math (Who belongs to Rows vs Columns?)
+const rowDigit = (isSwapped ? score.away : score.home) % 10;
+const colDigit = (isSwapped ? score.home : score.away) % 10;
+
 const winCoords = {
-  r: boards[activeBoard].rowNums.indexOf(score.home % 10),
-  c: boards[activeBoard].colNums.indexOf(score.away % 10)
+  r: boards[activeBoard].rowNums.indexOf(rowDigit),
+  c: boards[activeBoard].colNums.indexOf(colDigit)
 };
+
+// 3. Update Predictors (Move them to the right axis)
+const increments = [2, 3, 6, 7, 8];
+const likelyRows = increments.map(inc => ((isSwapped ? score.away : score.home) + inc) % 10);
+const likelyCols = increments.map(inc => ((isSwapped ? score.home : score.away) + inc) % 10);
 
   return (
     <div className="max-w-2xl mx-auto p-4 min-h-screen pb-24 bg-[#020617] text-white">
