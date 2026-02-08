@@ -87,6 +87,24 @@ function SquaresContent() {
     save(nb);
   };
 
+  const massPopulate = () => {
+  if (!isAdmin) return;
+  const input = prompt("Paste names separated by commas or newlines (exactly 100 names is best):");
+  if (!input) return;
+
+  // Split by comma, newline, or tab and trim whitespace
+  const names = input.split(/[,\n\t]/).map(n => n.trim()).filter(n => n !== "");
+  
+  const nb = JSON.parse(JSON.stringify(boards));
+  // Loop through the first 100 names and fill the grid row-by-row
+  names.forEach((name, i) => {
+    if (i < 100) nb[activeBoard].squares[i] = name;
+  });
+
+  save(nb);
+  alert(`Populated ${names.length} squares!`);
+};
+
   const editSquare = (idx: number) => {
     if (!isAdmin) return;
     const name = prompt("Enter Name:");
