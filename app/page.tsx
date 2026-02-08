@@ -52,8 +52,8 @@ function SquaresContent() {
       const sb = data.events.find((e: any) => e.shortName.includes("SEA") || e.shortName.includes("NE"));
       if (sb) {
         setScore({
-          home: parseInt(sb.competitions[0].competitors[0].score) || 0,
-          away: parseInt(sb.competitions[0].competitors[1].score) || 0,
+          away: parseInt(sb.competitions[0].competitors[0].score) || 0,
+          home: parseInt(sb.competitions[0].competitors[1].score) || 0,
           q: sb.status.period,
           clock: sb.status.displayClock,
           active: sb.status.type.state === "in"
