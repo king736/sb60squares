@@ -8,16 +8,15 @@ function SquaresContent() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
-  const [boards, setBoards] = useState(() => {
-  const customNames = [
-    "Alex & Tyler",       // Board 1
-    "Mom Dad Big Money",        // Board 2
-    "Mom Dad Twenty",        // Board 3
-    "Mom Dad Board 3",  // Board 4
-    "Board 5",        // Board 5
-    "Board 6",   // Board 6
-    "Board 7" // Board 7
-  ];
+  const [boards, setBoards] = useState([
+  { name: "Alex & Tyler", squares: {}, rowNums: [6,1,8,2,7,0,9,3,5,4], colNums: [5,1,2,9,3,6,8,7,0,4] },
+  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Board 4", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Board 5", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Board 6", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] }
+]);  
+  
   return customNames.map((name) => ({
     name: name,
     squares: {} as Record<number, string>
