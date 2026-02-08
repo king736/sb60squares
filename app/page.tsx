@@ -110,10 +110,21 @@ const [boards, setBoards] = useState([
     }
   };
 
-  const winCoords = {
-    r: boards[activeBoard].rowNums.indexOf(score.home % 10),
-    c: boards[activeBoard].colNums.indexOf(score.away % 10)
-  };
+  // const winCoords = {
+  //   r: boards[activeBoard].rowNums.indexOf(score.home % 10),
+  //   c: boards[activeBoard].colNums.indexOf(score.away % 10)
+  // };
+
+  // 1. Paste this right here:
+const increments = [2, 3, 6, 7, 8];
+const likelyHome = increments.map(inc => (score.home + inc) % 10);
+const likelyAway = increments.map(inc => (score.away + inc) % 10);
+
+// This should already be in your code:
+const winCoords = {
+  r: boards[activeBoard].rowNums.indexOf(score.home % 10),
+  c: boards[activeBoard].colNums.indexOf(score.away % 10)
+};
 
   return (
     <div className="max-w-2xl mx-auto p-4 min-h-screen pb-24 bg-[#020617] text-white">
