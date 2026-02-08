@@ -261,10 +261,10 @@ function SquaresContent() {
        ${isHeat && !isWin ? 'bg-blue-600/20 animate-pulse' : ''}
        ${boards[activeBoard].squares[idx]?.toLowerCase().includes('king') && !isWin ? 'border-yellow-500/50' : 'border-white/5'}`}>
     
-    {/* The Winner's Circle Background */}
+    {/* The Winner's Circle Background 
     {isWin && (
       <div className="absolute inset-0 bg-[#69BE28] rounded-full scale-90 animate-in zoom-in duration-300" />
-    )}
+    )} */}
 
     <span className={`text-[7px] md:text-xs lg:text-sm font-bold text-center leading-tight w-full break-words px-0.5 z-10 transition-colors
       ${isWin ? 'text-black' : 
