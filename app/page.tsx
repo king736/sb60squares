@@ -128,7 +128,7 @@ const [boards, setBoards] = useState([
             navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?d=${data}`);
             alert("Link copied!");
           }} className="p-3 bg-slate-900 rounded-2xl text-blue-400 border border-white/5"><Share2 size={20}/></button>
-          <button onClick={() => {if(prompt("Pass?")==='2026') setIsAdmin(!isAdmin)}} className="p-3 bg-slate-900 rounded-2xl border border-white/5">
+          <button onClick={() => {if(prompt("Pass?")==='SB2026') setIsAdmin(!isAdmin)}} className="p-3 bg-slate-900 rounded-2xl border border-white/5">
             {isAdmin ? <Unlock size={20} className="text-[#69BE28]" /> : <Lock size={20} className="text-slate-700" />}
           </button>
         </div>
