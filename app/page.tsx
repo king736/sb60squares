@@ -177,7 +177,19 @@ const [boards, setBoards] = useState([
             </div>
             {[...Array(10)].map((_, c) => {
               const idx = r * 10 + c;
-              const isWin = r === winCoords.r && c === winCoords.c;
+
+// Inside your grid mapping:
+const homeDigit = score.home % 10;
+const awayDigit = score.away % 10;
+
+// This finds the INDEX (0-9) where that digit currently sits
+const winRowIndex = boards[activeBoard].rowNums.indexOf(homeDigit);
+const winColIndex = boards[activeBoard].colNums.indexOf(awayDigit);
+
+// Then inside the square loop:
+const isWin = r === winRowIndex && c === winColIndex;
+
+            
               return (
                 <div key={c} onClick={() => editSquare(idx)} 
                      style={{ backgroundColor: isWin ? SEAHAWKS.green : '#0f172a' }}
