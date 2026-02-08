@@ -269,7 +269,6 @@ function SquaresContent() {
       </React.Fragment>
     ))}
   </div>
-</div>
         /* End New Code */
 
       <div className="space-y-2">
