@@ -15,12 +15,12 @@ function SquaresContent() {
   const [boards, setBoards] = useState([
     { name: "Alex & Tyler", squares: {} as Record<number, string>, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4], swapped: true },
     { name: "Dappers $200", squares: {} as Record<number, string>, rowNums: [9,5,1,3,0,8,4,7,6,2], colNums: [6,2,9,8,4,1,0,3,7,5], swapped: false },
-    { name: "Dappers $10", squares: {} as Record<number, string>, rowNums: [9,5,1,3,0,8,4,7,6,2], colNums: [6,2,9,8,4,1,0,3,7,5], swapped: false },
-    { name: "Teamz Bar $100", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
-    { name: "Sportsman $10", squares: {} as Record<number, string>, rowNums: [3,2,9,7,6,4,5,8,1,0], colNums: [7,2,5,0,8,6,4,1,3,9], swapped: false },
-    { name: "Sportsman 2", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false },
+    { name: "Dappers $10", squares: {} as Record<number, string>, rowNums: [9,2,3,6,8,0,7,5,4,1], colNums: [2,7,5,4,8,9,0,3,1,6], swapped: false },
+    { name: "Teamz Bar $100", squares: {} as Record<number, string>, rowNums: [1,3,4,2,7,8,5,9,0,6], colNums: [1,9,6,7,2,0,5,4,8,3], swapped: false },
+    { name: "Sportsman $10", squares: {} as Record<number, string>, rowNums: [3,8,0,5,6,4,2,7,9,1], colNums: [9,8,2,1,0,5,3,4,7,6], swapped: false },
+    { name: "Sportsman 2", squares: {} as Record<number, string>, rowNums: [9,8,6,5,3,2,4,0,1,7], colNums: [3,5,4,0,8,7,1,2,9,6], swapped: false },
     { name: "Sportsman 3", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false },
-    { name: "Barbershop $20", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false }
+    { name: "Barbershop $20", squares: {} as Record<number, string>, rowNums: [3,2,9,7,6,4,5,8,1,0], colNums: [7,2,5,0,8,64,1,3,9], swapped: false }
   ]);
 
   useEffect(() => {
