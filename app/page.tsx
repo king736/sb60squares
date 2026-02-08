@@ -8,15 +8,16 @@ function SquaresContent() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
-  const [boards, setBoards] = useState([
-  { name: "Alex & Tyler", squares: {}, rowNums: [6,1,8,2,7,0,9,3,5,4], colNums: [5,1,2,9,3,6,8,7,0,4] },
-  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Board 4", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Board 5", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Board 6", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] }
-]);  
-  
+  const [boards, setBoards] = useState(() => {
+  const customNames = [
+    "Alex & Tyler",       // Board 1
+    "Mom Dad Big Money",        // Board 2
+    "Mom Dad Twenty",        // Board 3
+    "Mom Dad Board 3",  // Board 4
+    "Board 5",        // Board 5
+    "Board 6",   // Board 6
+    "Board 7" // Board 7
+  ];
   return customNames.map((name) => ({
     name: name,
     squares: {} as Record<number, string>
@@ -81,26 +82,6 @@ function SquaresContent() {
       saveAndSync(nb);
     }
   };
-
-const editAxisNum = (type: 'row' | 'col', index: number) => {
-  if (!isAdmin) return;
-  const val = prompt(`Enter number for this ${type}:`);
-  if (val !== null && !isNaN(parseInt(val))) {
-    const nb = [...boards];
-    if (type === 'row') nb[activeBoard].rowNums[index] = parseInt(val);
-    else nb[activeBoard].colNums[index] = parseInt(val);
-    setBoards(nb); 
-    // If you have a save() function, call it here
-  }
-};
-
-const randomizeAllNums = () => {
-  if (!isAdmin || !confirm("Randomize numbers for this board?")) return;
-  const nb = [...boards];
-  nb[activeBoard].rowNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
-  nb[activeBoard].colNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
-  setBoards(nb);
-};
 
   const generateShareLink = () => {
     const data = btoa(JSON.stringify({ b: boards, h: history }));
@@ -178,16 +159,7 @@ const randomizeAllNums = () => {
             <div className="flex items-center justify-center text-[10px] font-black text-seahawks-green opacity-80">{r}</div>
             {[...Array(10)].map((_, c) => {
               const idx = r * 10 + c;
-              // Inside your grid mapping:
-              const homeDigit = score.home % 10;
-              const awayDigit = score.away % 10;
-
-              // This finds the INDEX (0-9) where that digit currently sits
-              const winRowIndex = boards[activeBoard].rowNums.indexOf(homeDigit);
-              const winColIndex = boards[activeBoard].colNums.indexOf(awayDigit);
-
-              // Then inside the square loop:
-              const isWin = r === winRowIndex && c === winColIndex;
+              const isWin = idx === winIdx;
               const isNext = nextPossibilities.includes(`${r}-${c}`);
               return (
                 <div key={c} onClick={() => editSquare(idx)} 
