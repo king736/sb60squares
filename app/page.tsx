@@ -239,21 +239,42 @@ function SquaresContent() {
                 const isLikelyCol = likelyCols.includes(boards[activeBoard].colNums[c]) && r === winCoords.r;
                 const isHeat = isLikelyRow || isLikelyCol;
 
-                return (
-                  <div key={c} onClick={() => editSquare(idx)} 
-                       className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden transition-all duration-500
-                       ${isWin ? 'bg-[#69BE28] z-20 ring-1 ring-inset ring-white shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' :
-                         boards[activeBoard].squares[idx]?.toLowerCase().includes('king') ? 'bg-yellow-500/20 border-yellow-500/50' : // HIGHLIGHT YOUR SQUARES
-                         'bg-[#0f172a]'}`}>
-                    <span className={`text-[7px] md:text-xs lg:text-sm font-bold text-center leading-tight w-full break-words px-0.5 z-10 
-                      ${isWin ? 'text-black' : 
+        //         return (
+        //           <div key={c} onClick={() => editSquare(idx)} 
+        //                className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden transition-all duration-500
+        //                ${isWin ? 'bg-[#69BE28] z-20 ring-1 ring-inset ring-white shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' :
+        //                  boards[activeBoard].squares[idx]?.toLowerCase().includes('king') ? 'bg-yellow-500/20 border-yellow-500/50' : // HIGHLIGHT YOUR SQUARES
+        //                  'bg-[#0f172a]'}`}>
+        //             <span className={`text-[7px] md:text-xs lg:text-sm font-bold text-center leading-tight w-full break-words px-0.5 z-10 
+        //               ${isWin ? 'text-black' : 
+        // isHeat ? 'text-blue-100' : 
+        // boards[activeBoard].squares[idx]?.toLowerCase().includes('king') ? 'text-yellow-400 font-black scale-110' : // TEXT POP
+        // 'text-slate-400'}`}>
+        //               {boards[activeBoard].squares[idx] || ""}
+        //             </span>
+        //           </div>
+        //         );
+              return (
+  <div key={c} onClick={() => editSquare(idx)} 
+       className={`aspect-square rounded-sm border flex items-center justify-center relative overflow-hidden transition-all duration-500
+       ${isWin ? 'z-20 ring-2 ring-white shadow-2xl scale-110' : 'bg-[#0f172a]'}
+       ${isHeat && !isWin ? 'bg-blue-600/20 animate-pulse' : ''}
+       ${boards[activeBoard].squares[idx]?.toLowerCase().includes('king') && !isWin ? 'border-yellow-500/50' : 'border-white/5'}`}>
+    
+    {/* The Winner's Circle Background */}
+    {isWin && (
+      <div className="absolute inset-0 bg-[#69BE28] rounded-full scale-90 animate-in zoom-in duration-300" />
+    )}
+
+    <span className={`text-[7px] md:text-xs lg:text-sm font-bold text-center leading-tight w-full break-words px-0.5 z-10 transition-colors
+      ${isWin ? 'text-black' : 
+        boards[activeBoard].squares[idx]?.toLowerCase().includes('king') ? 'text-yellow-400 font-black scale-110' : 
         isHeat ? 'text-blue-100' : 
-        boards[activeBoard].squares[idx]?.toLowerCase().includes('king') ? 'text-yellow-400 font-black scale-110' : // TEXT POP
         'text-slate-400'}`}>
-                      {boards[activeBoard].squares[idx] || ""}
-                    </span>
-                  </div>
-                );
+      {boards[activeBoard].squares[idx] || ""}
+    </span>
+  </div>
+);
               })}
             </React.Fragment>
           ))}
