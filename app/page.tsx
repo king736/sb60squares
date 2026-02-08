@@ -244,7 +244,10 @@ function SquaresContent() {
                        className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden transition-all duration-500
                        ${isWin ? 'bg-[#69BE28] z-20 ring-1 ring-inset ring-white shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
                     <span className={`text-[7px] md:text-xs lg:text-sm font-bold text-center leading-tight w-full break-words px-0.5 z-10 
-                      ${isWin ? 'text-black' : isHeat ? 'text-blue-100' : 'text-slate-400'}`}>
+                      ${isWin ? 'text-black' : 
+        isHeat ? 'text-blue-100' : 
+        boards[activeBoard].squares[idx]?.toLowerCase().includes('king') ? 'text-yellow-400 font-black scale-110' : // TEXT POP
+        'text-slate-400'}`}>
                       {boards[activeBoard].squares[idx] || ""}
                     </span>
                   </div>
