@@ -20,7 +20,7 @@ function SquaresContent() {
     { name: "Sportsman $10", squares: {} as Record<number, string>, rowNums: [3,8,0,5,6,4,2,7,9,1], colNums: [9,8,2,1,0,5,3,4,7,6], swapped: false },
     { name: "Sportsman 2", squares: {} as Record<number, string>, rowNums: [9,8,6,5,3,2,4,0,1,7], colNums: [3,5,4,0,8,7,1,2,9,6], swapped: false },
     { name: "Sportsman 3", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false },
-    { name: "Barbershop $20", squares: {} as Record<number, string>, rowNums: [3,2,9,7,6,4,5,8,1,0], colNums: [7,2,5,0,8,64,1,3,9], swapped: false }
+    { name: "Barbershop $20", squares: {} as Record<number, string>, rowNums: [3,2,9,7,6,4,5,8,1,0], colNums: [7,2,5,0,8,6,4,1,3,9], swapped: false }
   ]);
 
   useEffect(() => {
