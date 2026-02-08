@@ -12,15 +12,13 @@ function SquaresContent() {
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
   
- // Keep your custom names, but add these rowNums and colNums lines
+// Keep your custom names, but add these rowNums and colNums lines
 const [boards, setBoards] = useState([
-  { name: "Alex & Tyler", squares: {}, rowNums: [6,1,8,2,7,0,9,3,5,4], colNums: [5,1,2,9,3,6,8,7,0,4] },
-  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Board 4", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
-  { name: "Board 5", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "The Main Pot", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Kids Square", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  // ... do this for all 7
 ]);
-
+  
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const data = params.get('d');
@@ -66,6 +64,18 @@ const [boards, setBoards] = useState([
     localStorage.setItem('sb60-state-v2', JSON.stringify({ b: newB, h: newH }));
   };
 
+  // ADMIN: Edit the numbers (0-9)
+  const editAxisNum = (type: 'row' | 'col', index: number) => {
+    if (!isAdmin) return;
+    const val = prompt(`Enter number for this ${type}:`);
+    if (val !== null) {
+      const nb = [...boards];
+      if (type === 'row') nb[activeBoard].rowNums[index] = parseInt(val);
+      else nb[activeBoard].colNums[index] = parseInt(val);
+      save(nb);
+    }
+  };
+
   const editAxisNum = (type: 'row' | 'col', index: number) => {
   if (!isAdmin) return;
   const val = prompt(`Enter number for this ${type}:`);
@@ -77,15 +87,22 @@ const [boards, setBoards] = useState([
     // If you have a save() function, call it here
   }
 };
-  
 
-  const randomizeAllNums = () => {
+const randomizeAllNums = () => {
   if (!isAdmin || !confirm("Randomize numbers for this board?")) return;
   const nb = [...boards];
   nb[activeBoard].rowNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
   nb[activeBoard].colNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
   setBoards(nb);
 };
+
+  const randomizeAllNums = () => {
+    if (!confirm("Randomize numbers for this board?")) return;
+    const nb = [...boards];
+    nb[activeBoard].rowNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
+    nb[activeBoard].colNums = [...Array(10).keys()].sort(() => Math.random() - 0.5);
+    save(nb);
+  };
 
   const editSquare = (idx: number) => {
     if (!isAdmin) return;
@@ -177,8 +194,7 @@ const [boards, setBoards] = useState([
             </div>
             {[...Array(10)].map((_, c) => {
               const idx = r * 10 + c;
-
-// Inside your grid mapping:
+              // Inside your grid mapping:
 const homeDigit = score.home % 10;
 const awayDigit = score.away % 10;
 
@@ -188,8 +204,6 @@ const winColIndex = boards[activeBoard].colNums.indexOf(awayDigit);
 
 // Then inside the square loop:
 const isWin = r === winRowIndex && c === winColIndex;
-
-            
               return (
                 <div key={c} onClick={() => editSquare(idx)} 
                      style={{ backgroundColor: isWin ? SEAHAWKS.green : '#0f172a' }}
