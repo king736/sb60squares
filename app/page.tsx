@@ -135,7 +135,8 @@ function SquaresContent() {
   const likelyCols = increments.map(inc => ((isSwapped ? score.home : score.away) + inc) % 10);
 
   return (
-    <div className="max-w-2xl mx-auto p-4 min-h-screen pb-24 bg-[#020617] text-white">
+    /*<div className="max-w-2xl mx-auto p-4 min-h-screen pb-24 bg-[#020617] text-white">*/
+    <div className="max-w-6xl mx-auto p-4 md:p-8 min-h-screen pb-24 bg-[#020617] text-white">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-black italic text-[#69BE28]">SUPER BOWL LX</h1>
@@ -230,7 +231,7 @@ function SquaresContent() {
                   <div key={c} onClick={() => editSquare(idx)} 
                        className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden transition-all duration-500
                        ${isWin ? 'bg-[#69BE28] z-20 ring-1 ring-inset ring-white shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
-                    <span className={`text-[6px] sm:text-[8px] font-bold text-center leading-[0.8] w-full break-all px-0.5 z-10 
+                    <span className={`text-[7px] md:text-xs lg:text-sm font-bold text-center leading-tight w-full break-words px-0.5 z-10 
                       ${isWin ? 'text-black' : isHeat ? 'text-blue-100' : 'text-slate-400'}`}>
                       {boards[activeBoard].squares[idx] || ""}
                     </span>
