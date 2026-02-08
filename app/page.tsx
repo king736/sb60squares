@@ -14,10 +14,12 @@ function SquaresContent() {
   
   const [boards, setBoards] = useState([
     { name: "Alex & Tyler", squares: {} as Record<number, string>, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4], swapped: true },
-    { name: "Mom & Dad $200", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
-    { name: "Mom & Dad Twenty", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
-    { name: "Mom & Dad 3", squares: {} as Record<number, string>, rowNums: [3,2,9,7,6,4,5,8,1,0], colNums: [7,2,5,0,8,6,4,1,3,9], swapped: false },
-    { name: "Mom & Dad 4", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false }
+    { name: "Dappers $200", squares: {} as Record<number, string>, rowNums: [9,5,1,3,0,8,4,7,6,2], colNums: [6,2,9,8,4,1,0,3,7,5], swapped: false },
+    { name: "Dappers $10", squares: {} as Record<number, string>, rowNums: [9,5,1,3,0,8,4,7,6,2], colNums: [6,2,9,8,4,1,0,3,7,5], swapped: false },
+    { name: "Teamz Bar $100", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
+    { name: "Sportsman $10", squares: {} as Record<number, string>, rowNums: [3,2,9,7,6,4,5,8,1,0], colNums: [7,2,5,0,8,6,4,1,3,9], swapped: false },
+    { name: "Sportsman $?", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false },
+    { name: "Barbershop $20", squares: {} as Record<number, string>, rowNums: [1,0,2,8,5,6,7,3,9,4], colNums: [9,0,4,1,6,5,3,8,2,7], swapped: false }
   ]);
 
   useEffect(() => {
