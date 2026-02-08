@@ -88,22 +88,15 @@ function SquaresContent() {
   };
 
   const massPopulate = () => {
-  if (!isAdmin) return;
-  const input = prompt("Paste names separated by commas or newlines (exactly 100 names is best):");
-  if (!input) return;
-
-  // Split by comma, newline, or tab and trim whitespace
-  const names = input.split(/[,\n\t]/).map(n => n.trim()).filter(n => n !== "");
-  
-  const nb = JSON.parse(JSON.stringify(boards));
-  // Loop through the first 100 names and fill the grid row-by-row
-  names.forEach((name, i) => {
-    if (i < 100) nb[activeBoard].squares[i] = name;
-  });
-
-  save(nb);
-  alert(`Populated ${names.length} squares!`);
-};
+    if (!isAdmin) return;
+    const input = prompt("Paste names separated by commas or newlines:");
+    if (!input) return;
+    const names = input.split(/[,\n\t]/).map(n => n.trim()).filter(n => n !== "");
+    const nb = JSON.parse(JSON.stringify(boards));
+    names.forEach((name, i) => { if (i < 100) nb[activeBoard].squares[i] = name; });
+    save(nb);
+    alert(`Populated ${names.length} squares!`);
+  };
 
   const editSquare = (idx: number) => {
     if (!isAdmin) return;
@@ -123,7 +116,6 @@ function SquaresContent() {
     save(nb);
   };
 
-  // LOGIC FOR AXIS & WINNING
   const isSwapped = boards[activeBoard].swapped;
   const sideColor = isSwapped ? PATRIOTS.red : SEAHAWKS.green;
   const topColor = isSwapped ? SEAHAWKS.green : PATRIOTS.red;
@@ -197,79 +189,58 @@ function SquaresContent() {
           <button onClick={toggleTeamSwap} className="py-2 bg-slate-800 text-white border border-white/10 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
             <RefreshCcw size={14}/> Swap: {sideLabel} Side
           </button>
-          <button 
-  onClick={massPopulate} 
-  className="py-2 bg-purple-600/10 text-purple-400 border border-purple-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2"
->
-  <History size={14}/> Mass Paste Names
-</button>
+          <button onClick={massPopulate} className="col-span-2 py-2 bg-purple-600/10 text-purple-400 border border-purple-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
+            <History size={14}/> Mass Paste Names
+          </button>
         </div>
       )}
 
-      {/* Grid Labels */}
-      <div className="flex justify-between px-8 mb-1">
-        <span className="text-[9px] font-black opacity-40">SIDE: {sideLabel}</span>
-        <span className="text-[9px] font-black opacity-40 text-right">TOP: {topLabel}</span>
-      </div>
-
-      <div className="grid grid-cols-[30px_repeat(10,1fr)] gap-1 mb-8">
-        {/* New Code - Container to prevent horizontal body scroll */}
-<div className="w-full overflow-x-hidden px-1">
-  
-  {/* Grid Labels */}
-  <div className="flex justify-between mb-1 px-1">
-    <span className="text-[8px] font-black opacity-40 tracking-tighter">SIDE: {sideLabel}</span>
-    <span className="text-[8px] font-black opacity-40 tracking-tighter text-right">TOP: {topLabel}</span>
-  </div>
-
-  {/* Fixed Width Grid */}
-  <div className="grid grid-cols-[24px_repeat(10,1fr)] gap-0.5 w-full mx-auto">
-    {/* Top Corner Spacer */}
-    <div />
-
-    {/* Top Numbers (Columns) */}
-    {boards[activeBoard].colNums.map((num, i) => (
-      <div key={i} onClick={() => editAxisNum('col', i)} 
-           style={{ color: topColor }}
-           className={`text-center text-[10px] sm:text-xs font-black p-0.5 rounded ${isAdmin ? 'bg-white/5 animate-pulse cursor-pointer' : ''}`}>
-        {num}
-      </div>
-    ))}
-
-    {/* Row mapping */}
-    {boards[activeBoard].rowNums.map((rowNum, r) => (
-      <React.Fragment key={r}>
-        {/* Side Numbers (Rows) */}
-        <div onClick={() => editAxisNum('row', r)} 
-             style={{ color: sideColor }}
-             className={`flex items-center justify-center text-[10px] sm:text-xs font-black rounded ${isAdmin ? 'bg-white/5 animate-pulse cursor-pointer' : ''}`}>
-          {rowNum}
+      {/* Grid Section */}
+      <div className="w-full overflow-x-hidden mb-8">
+        <div className="flex justify-between mb-1 px-1">
+          <span className="text-[8px] font-black opacity-40 tracking-tighter">SIDE: {sideLabel}</span>
+          <span className="text-[8px] font-black opacity-40 tracking-tighter text-right">TOP: {topLabel}</span>
         </div>
 
-        {/* The 10 Squares in this row */}
-        {[0,1,2,3,4,5,6,7,8,9].map((_, c) => {
-          const idx = r * 10 + c;
-          const isWin = r === winCoords.r && c === winCoords.c;
-          const isLikelyRow = likelyRows.includes(boards[activeBoard].rowNums[r]) && c === winCoords.c;
-          const isLikelyCol = likelyCols.includes(boards[activeBoard].colNums[c]) && r === winCoords.r;
-          const isHeat = isLikelyRow || isLikelyCol;
-
-          return (
-            <div key={c} onClick={() => editSquare(idx)} 
-                 className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden transition-all duration-500
-                 ${isWin ? 'bg-[#69BE28] z-20 ring-1 ring-inset ring-white shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
-              
-              <span className={`text-[6px] sm:text-[8px] font-bold text-center leading-[0.8] w-full break-all px-0.5 z-10 
-                ${isWin ? 'text-black' : isHeat ? 'text-blue-100' : 'text-slate-400'}`}>
-                {boards[activeBoard].squares[idx] || ""}
-              </span>
+        <div className="grid grid-cols-[24px_repeat(10,1fr)] gap-0.5 w-full">
+          <div />
+          {boards[activeBoard].colNums.map((num, i) => (
+            <div key={i} onClick={() => editAxisNum('col', i)} 
+                 style={{ color: topColor }}
+                 className={`text-center text-[10px] sm:text-xs font-black p-0.5 rounded ${isAdmin ? 'bg-white/5 animate-pulse cursor-pointer' : ''}`}>
+              {num}
             </div>
-          );
-        })}
-      </React.Fragment>
-    ))}
-  </div>
-        /* End New Code */
+          ))}
+
+          {boards[activeBoard].rowNums.map((rowNum, r) => (
+            <React.Fragment key={r}>
+              <div onClick={() => editAxisNum('row', r)} 
+                   style={{ color: sideColor }}
+                   className={`flex items-center justify-center text-[10px] sm:text-xs font-black rounded ${isAdmin ? 'bg-white/5 animate-pulse cursor-pointer' : ''}`}>
+                {rowNum}
+              </div>
+              {[0,1,2,3,4,5,6,7,8,9].map((_, c) => {
+                const idx = r * 10 + c;
+                const isWin = r === winCoords.r && c === winCoords.c;
+                const isLikelyRow = likelyRows.includes(boards[activeBoard].rowNums[r]) && c === winCoords.c;
+                const isLikelyCol = likelyCols.includes(boards[activeBoard].colNums[c]) && r === winCoords.r;
+                const isHeat = isLikelyRow || isLikelyCol;
+
+                return (
+                  <div key={c} onClick={() => editSquare(idx)} 
+                       className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative overflow-hidden transition-all duration-500
+                       ${isWin ? 'bg-[#69BE28] z-20 ring-1 ring-inset ring-white shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
+                    <span className={`text-[6px] sm:text-[8px] font-bold text-center leading-[0.8] w-full break-all px-0.5 z-10 
+                      ${isWin ? 'text-black' : isHeat ? 'text-blue-100' : 'text-slate-400'}`}>
+                      {boards[activeBoard].squares[idx] || ""}
+                    </span>
+                  </div>
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
 
       <div className="space-y-2">
         {isAdmin && <button onClick={() => save(boards, [...history, {q: `Q${score.q}`, winner: boards[activeBoard].squares[winCoords.r * 10 + winCoords.c] || "None", score: `${score.home}-${score.away}`}])} className="w-full py-4 bg-slate-800 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 border border-white/5">Snapshot Result</button>}
