@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import { Lock, Unlock, Share2, History, Hash } from 'lucide-react';
+import { Lock, Unlock, Share2, History, Hash, RefreshCcw } from 'lucide-react';
 
 const SEAHAWKS = { navy: '#002244', green: '#69BE28' };
 const PATRIOTS = { blue: '#002244', red: '#C60C30' };
@@ -12,27 +12,15 @@ function SquaresContent() {
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
   
-  // const [boards, setBoards] = useState(() => {
-  //   const names = ["Main Family", "Kids Pot", "High Stakes", "Uncle Bob", "Office Pool", "Second Half", "Final Score"];
-  //   return names.map(name => ({
-  //     name: name,
-  //     squares: {} as Record<number, string>,
-  //     rowNums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  //     colNums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  //   }));
-  // });
-
-  // Keep your custom names, but add these rowNums and colNums lines
-const [boards, setBoards] = useState([
-  { name: "Alex & Tyler", squares: {}, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4] },swapped: false,
-  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },swapped: false,
-  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },swapped: false
-  // ... do this for all 7
-]);
-
-
-
-  
+  const [boards, setBoards] = useState([
+    { name: "Alex & Tyler", squares: {} as Record<number, string>, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4], swapped: false },
+    { name: "Mom & Dad $200", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
+    { name: "Mom & Dad Twenty", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
+    { name: "Board 4", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
+    { name: "Board 5", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
+    { name: "Board 6", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
+    { name: "Board 7", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false }
+  ]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -44,7 +32,7 @@ const [boards, setBoards] = useState([
         setHistory(decoded.h || []);
       } catch (e) { console.error("Link error"); }
     } else {
-      const saved = localStorage.getItem('sb60-safe-v3');
+      const saved = localStorage.getItem('sb60-safe-v4');
       if (saved) {
         const p = JSON.parse(saved);
         setBoards(p.b);
@@ -76,7 +64,7 @@ const [boards, setBoards] = useState([
   const save = (newB = boards, newH = history) => {
     setBoards(newB);
     setHistory(newH);
-    localStorage.setItem('sb60-safe-v3', JSON.stringify({ b: newB, h: newH }));
+    localStorage.setItem('sb60-safe-v4', JSON.stringify({ b: newB, h: newH }));
   };
 
   const editAxisNum = (type: 'row' | 'col', index: number) => {
@@ -111,41 +99,30 @@ const [boards, setBoards] = useState([
   };
 
   const toggleTeamSwap = () => {
-  if (!isAdmin) return;
-  const nb = JSON.parse(JSON.stringify(boards));
-  nb[activeBoard].swapped = !nb[activeBoard].swapped;
-  save(nb);
-};
+    if (!isAdmin) return;
+    const nb = JSON.parse(JSON.stringify(boards));
+    nb[activeBoard].swapped = !nb[activeBoard].swapped;
+    save(nb);
+  };
 
-  // const winCoords = {
-  //   r: boards[activeBoard].rowNums.indexOf(score.home % 10),
-  //   c: boards[activeBoard].colNums.indexOf(score.away % 10)
-  // };
+  // LOGIC FOR AXIS & WINNING
+  const isSwapped = boards[activeBoard].swapped;
+  const sideColor = isSwapped ? PATRIOTS.red : SEAHAWKS.green;
+  const topColor = isSwapped ? SEAHAWKS.green : PATRIOTS.red;
+  const sideLabel = isSwapped ? "PAT" : "SEA";
+  const topLabel = isSwapped ? "SEA" : "PAT";
 
-  // 1. Paste this right here:
-const increments = [2, 3, 6, 7, 8];
-const likelyHome = increments.map(inc => (score.home + inc) % 10);
-const likelyAway = increments.map(inc => (score.away + inc) % 10);
+  const rowDigit = (isSwapped ? score.away : score.home) % 10;
+  const colDigit = (isSwapped ? score.home : score.away) % 10;
 
-// This should already be in your code:
-// 1. Determine who is on which axis
-const isSwapped = boards[activeBoard].swapped;
-const sideColor = isSwapped ? '#C60C30' : '#69BE28'; // Side is Red (PAT) if swapped
-const topColor = isSwapped ? '#69BE28' : '#C60C30';  // Top is Green (SEA) if swapped
+  const winCoords = {
+    r: boards[activeBoard].rowNums.indexOf(rowDigit),
+    c: boards[activeBoard].colNums.indexOf(colDigit)
+  };
 
-// 2. Adjust Winning Math (Who belongs to Rows vs Columns?)
-const rowDigit = (isSwapped ? score.away : score.home) % 10;
-const colDigit = (isSwapped ? score.home : score.away) % 10;
-
-const winCoords = {
-  r: boards[activeBoard].rowNums.indexOf(rowDigit),
-  c: boards[activeBoard].colNums.indexOf(colDigit)
-};
-
-// 3. Update Predictors (Move them to the right axis)
-const increments = [2, 3, 6, 7, 8];
-const likelyRows = increments.map(inc => ((isSwapped ? score.away : score.home) + inc) % 10);
-const likelyCols = increments.map(inc => ((isSwapped ? score.home : score.away) + inc) % 10);
+  const increments = [2, 3, 6, 7, 8];
+  const likelyRows = increments.map(inc => ((isSwapped ? score.away : score.home) + inc) % 10);
+  const likelyCols = increments.map(inc => ((isSwapped ? score.home : score.away) + inc) % 10);
 
   return (
     <div className="max-w-2xl mx-auto p-4 min-h-screen pb-24 bg-[#020617] text-white">
@@ -195,43 +172,55 @@ const likelyCols = increments.map(inc => ((isSwapped ? score.home : score.away) 
       </div>
 
       {isAdmin && (
-        <button onClick={randomizeNums} className="w-full mb-4 py-2 bg-blue-600/10 text-blue-400 border border-blue-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
-          <Hash size={14}/> Randomize Numbers
-        </button>
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <button onClick={randomizeNums} className="py-2 bg-blue-600/10 text-blue-400 border border-blue-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
+            <Hash size={14}/> Randomize
+          </button>
+          <button onClick={toggleTeamSwap} className="py-2 bg-slate-800 text-white border border-white/10 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
+            <RefreshCcw size={14}/> Swap: {sideLabel} Side
+          </button>
+        </div>
       )}
+
+      {/* Grid Labels */}
+      <div className="flex justify-between px-8 mb-1">
+        <span className="text-[9px] font-black opacity-40">SIDE: {sideLabel}</span>
+        <span className="text-[9px] font-black opacity-40 text-right">TOP: {topLabel}</span>
+      </div>
 
       <div className="grid grid-cols-[30px_repeat(10,1fr)] gap-1 mb-8">
         <div />
         {boards[activeBoard].colNums.map((num, i) => (
-          <div key={i} onClick={() => editAxisNum('col', i)} className={`text-center text-sm font-black p-1 rounded ${isAdmin ? 'bg-[#C60C30]/20 text-white animate-pulse cursor-pointer' : 'text-[#C60C30]'}`}>
+          <div key={i} onClick={() => editAxisNum('col', i)} 
+               style={{ color: topColor }}
+               className={`text-center text-sm font-black p-1 rounded ${isAdmin ? 'bg-white/5 animate-pulse cursor-pointer' : ''}`}>
             {num}
           </div>
         ))}
         {boards[activeBoard].rowNums.map((rowNum, r) => (
           <React.Fragment key={r}>
-            <div onClick={() => editAxisNum('row', r)} className={`flex items-center justify-center text-sm font-black rounded ${isAdmin ? 'bg-[#69BE28]/20 text-white animate-pulse cursor-pointer' : 'text-[#69BE28]'}`}>
+            <div onClick={() => editAxisNum('row', r)} 
+                 style={{ color: sideColor }}
+                 className={`flex items-center justify-center text-sm font-black rounded ${isAdmin ? 'bg-white/5 animate-pulse cursor-pointer' : ''}`}>
               {rowNum}
             </div>
             {[0,1,2,3,4,5,6,7,8,9].map((_, c) => {
               const idx = r * 10 + c;
-  const isWin = r === winCoords.r && c === winCoords.c;
+              const isWin = r === winCoords.r && c === winCoords.c;
 
-  // Predict if THIS specific square is a potential next score
-  const isLikelyRow = likelyHome.includes(boards[activeBoard].rowNums[r]) && c === winCoords.c;
-  const isLikelyCol = likelyAway.includes(boards[activeBoard].colNums[c]) && r === winCoords.r;
-  const isHeat = isLikelyRow || isLikelyCol;
+              const isLikelyRow = likelyRows.includes(boards[activeBoard].rowNums[r]) && c === winCoords.c;
+              const isLikelyCol = likelyCols.includes(boards[activeBoard].colNums[c]) && r === winCoords.r;
+              const isHeat = isLikelyRow || isLikelyCol;
 
-  return (
-    <div key={c} onClick={() => editSquare(idx)} 
-         className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative transition-all duration-500
-         ${isWin ? 'bg-[#69BE28] z-20 scale-110 shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
-      
-      <span className={`text-[7px] font-bold text-center leading-none truncate px-0.5 z-10 
-        ${isWin ? 'text-black' : isHeat ? 'text-blue-200' : 'text-slate-500'}`}>
-        {boards[activeBoard].squares[idx] || ""}
-      </span>
-    </div>
-  );
+              return (
+                <div key={c} onClick={() => editSquare(idx)} 
+                     className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative transition-all duration-500
+                     ${isWin ? 'bg-[#69BE28] z-20 scale-110 shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
+                  <span className={`text-[7px] font-bold text-center leading-none truncate px-0.5 z-10 ${isWin ? 'text-black' : isHeat ? 'text-blue-200' : 'text-slate-500'}`}>
+                    {boards[activeBoard].squares[idx] || ""}
+                  </span>
+                </div>
+              );
             })}
           </React.Fragment>
         ))}
