@@ -13,7 +13,7 @@ function SquaresContent() {
   const [history, setHistory] = useState<any[]>([]);
   
   const [boards, setBoards] = useState([
-    { name: "Alex & Tyler", squares: {} as Record<number, string>, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4], swapped: false },
+    { name: "Alex & Tyler", squares: {} as Record<number, string>, rowNums: [5,1,2,9,3,6,8,7,0,4], colNums: [6,1,8,2,7,0,9,3,5,4], swapped: true },
     { name: "Mom & Dad $200", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
     { name: "Mom & Dad Twenty", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
     { name: "Board 4", squares: {} as Record<number, string>, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9], swapped: false },
