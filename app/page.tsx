@@ -193,16 +193,24 @@ const winCoords = {
             </div>
             {[0,1,2,3,4,5,6,7,8,9].map((_, c) => {
               const idx = r * 10 + c;
-              const isWin = r === winCoords.r && c === winCoords.c;
-              return (
-                <div key={c} onClick={() => editSquare(idx)} 
-                     style={{ backgroundColor: isWin ? '#69BE28' : '#0f172a' }}
-                     className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative ${isWin ? 'ring-2 ring-white z-10 scale-110 shadow-lg' : ''}`}>
-                  <span className={`text-[7px] font-bold text-center leading-none truncate px-0.5 ${isWin ? 'text-black' : 'text-slate-400'}`}>
-                    {boards[activeBoard].squares[idx] || ""}
-                  </span>
-                </div>
-              );
+  const isWin = r === winCoords.r && c === winCoords.c;
+
+  // Predict if THIS specific square is a potential next score
+  const isLikelyRow = likelyHome.includes(boards[activeBoard].rowNums[r]) && c === winCoords.c;
+  const isLikelyCol = likelyAway.includes(boards[activeBoard].colNums[c]) && r === winCoords.r;
+  const isHeat = isLikelyRow || isLikelyCol;
+
+  return (
+    <div key={c} onClick={() => editSquare(idx)} 
+         className={`aspect-square rounded-sm border border-white/5 flex items-center justify-center relative transition-all duration-500
+         ${isWin ? 'bg-[#69BE28] z-20 scale-110 shadow-lg' : isHeat ? 'bg-blue-600/30 animate-pulse' : 'bg-[#0f172a]'}`}>
+      
+      <span className={`text-[7px] font-bold text-center leading-none truncate px-0.5 z-10 
+        ${isWin ? 'text-black' : isHeat ? 'text-blue-200' : 'text-slate-500'}`}>
+        {boards[activeBoard].squares[idx] || ""}
+      </span>
+    </div>
+  );
             })}
           </React.Fragment>
         ))}
