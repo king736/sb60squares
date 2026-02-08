@@ -197,6 +197,12 @@ function SquaresContent() {
           <button onClick={toggleTeamSwap} className="py-2 bg-slate-800 text-white border border-white/10 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
             <RefreshCcw size={14}/> Swap: {sideLabel} Side
           </button>
+          <button 
+  onClick={massPopulate} 
+  className="py-2 bg-purple-600/10 text-purple-400 border border-purple-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2"
+>
+  <History size={14}/> Mass Paste Names
+</button>
         </div>
       )}
 
