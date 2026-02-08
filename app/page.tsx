@@ -12,15 +12,27 @@ function SquaresContent() {
   const [score, setScore] = useState({ home: 0, away: 0, q: 1, clock: "15:00", active: false });
   const [history, setHistory] = useState<any[]>([]);
   
-  const [boards, setBoards] = useState(() => {
-    const names = ["Main Family", "Kids Pot", "High Stakes", "Uncle Bob", "Office Pool", "Second Half", "Final Score"];
-    return names.map(name => ({
-      name: name,
-      squares: {} as Record<number, string>,
-      rowNums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      colNums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    }));
-  });
+  // const [boards, setBoards] = useState(() => {
+  //   const names = ["Main Family", "Kids Pot", "High Stakes", "Uncle Bob", "Office Pool", "Second Half", "Final Score"];
+  //   return names.map(name => ({
+  //     name: name,
+  //     squares: {} as Record<number, string>,
+  //     rowNums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  //     colNums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  //   }));
+  // });
+
+  // Keep your custom names, but add these rowNums and colNums lines
+const [boards, setBoards] = useState([
+  { name: "Alex & Tyler", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Mom & Dad $200", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] },
+  { name: "Mom & Dad Twenty", squares: {}, rowNums: [0,1,2,3,4,5,6,7,8,9], colNums: [0,1,2,3,4,5,6,7,8,9] }
+  // ... do this for all 7
+]);
+
+
+
+  
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
