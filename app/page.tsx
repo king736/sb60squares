@@ -65,7 +65,7 @@ function SquaresContent() {
   const save = (newB = boards, newH = history) => {
     setBoards(newB);
     setHistory(newH);
-    localStorage.setItem('sb60-safe-v4', JSON.stringify({ b: newB, h: newH }));
+    localStorage.setItem('sb60-safe-v5', JSON.stringify({ b: newB, h: newH }));
   };
 
   const editAxisNum = (type: 'row' | 'col', index: number) => {
@@ -194,6 +194,17 @@ function SquaresContent() {
           <button onClick={massPopulate} className="col-span-2 py-2 bg-purple-600/10 text-purple-400 border border-purple-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2">
             <History size={14}/> Mass Paste Names
           </button>
+          <button 
+  onClick={() => {
+    const data = btoa(JSON.stringify({ b: boards, h: history }));
+    const url = `${window.location.origin}${window.location.pathname}?d=${data}`;
+    // This opens a QR generator with your link
+    window.open(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`, '_blank');
+  }} 
+  className="col-span-2 py-2 bg-green-600/10 text-green-400 border border-green-600/20 rounded-xl font-bold text-[10px] uppercase flex items-center justify-center gap-2"
+>
+  <Share2 size={14}/> Generate Guest QR Code
+</button>
         </div>
       )}
 
