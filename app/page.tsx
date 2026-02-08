@@ -178,7 +178,16 @@ const randomizeAllNums = () => {
             <div className="flex items-center justify-center text-[10px] font-black text-seahawks-green opacity-80">{r}</div>
             {[...Array(10)].map((_, c) => {
               const idx = r * 10 + c;
-              const isWin = idx === winIdx;
+              // Inside your grid mapping:
+              const homeDigit = score.home % 10;
+              const awayDigit = score.away % 10;
+
+              // This finds the INDEX (0-9) where that digit currently sits
+              const winRowIndex = boards[activeBoard].rowNums.indexOf(homeDigit);
+              const winColIndex = boards[activeBoard].colNums.indexOf(awayDigit);
+
+              // Then inside the square loop:
+              const isWin = r === winRowIndex && c === winColIndex;
               const isNext = nextPossibilities.includes(`${r}-${c}`);
               return (
                 <div key={c} onClick={() => editSquare(idx)} 
